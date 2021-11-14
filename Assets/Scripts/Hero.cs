@@ -7,7 +7,12 @@ public class Hero : MonoBehaviour
     [SerializeField] private float speed = 3f;// скорость движения
     [SerializeField] private int lives = 3;// количество жизней
     [SerializeField] private float jumpForse = 8f;// сила прыжка
+    //
     [SerializeField] private bool isGrounded=false;
+    [SerializeField] private Transform grondCheck;
+    [SerializeField] public float groundRadius = 0.2f;
+     public LayerMask WhatIsGround;
+    //
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
 
@@ -24,7 +29,7 @@ public class Hero : MonoBehaviour
     {
         if (Input.GetButton("Horizontal"))
             Run();
-        if (!isGrounded && Input.GetButtonDown("Jump"))
+        if (isGrounded && Input.GetButtonDown("Jump"))
             Jump();
     }
     private void Run()
@@ -39,7 +44,6 @@ public class Hero : MonoBehaviour
     }
     private void CheckGround()
     {
-        Collider2D[] colider = Physics2D.OverlapCircleAll(transform.position, 1f);
-        isGrounded = colider.Length > 1;
+        isGrounded = Physics2D.OverlapCircle(grondCheck.position, groundRadius, WhatIsGround);
     }
 }
