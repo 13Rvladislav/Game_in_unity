@@ -25,6 +25,7 @@ public class Hero : MonoBehaviour
     private Animator anim; // поле типа аниматор
     private SpriteRenderer sprite;
 
+    public static Hero Instance { get; set; }
     private States State
     {
         get { return (States)anim.GetInteger("state"); } // получаем значение стате из аниматора
@@ -33,6 +34,7 @@ public class Hero : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>(); // получаем ссылку на компонент поля
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -67,5 +69,10 @@ public class Hero : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(grondCheck.position, groundRadius, WhatIsGround);
 
         if (!isGrounded) State = States.jump; // если не касаемся земли, то анимация прыжка
+    }
+    public void GetDamage()
+    {
+        lives -= 1;
+        Debug.Log(lives);
     }
 }
