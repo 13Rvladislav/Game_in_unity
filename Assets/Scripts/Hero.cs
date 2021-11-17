@@ -25,6 +25,8 @@ public class Hero : MonoBehaviour
     private Animator anim; // поле типа аниматор
     private SpriteRenderer sprite;
 
+    private Bullet bullet;
+
     public static Hero Instance { get; set; }
     private States State
     {
@@ -38,6 +40,8 @@ public class Hero : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>(); // получаем ссылку на компонент поля
         sprite = GetComponentInChildren<SpriteRenderer>();
+
+        bullet = Resources.Load<Bullet>("Bullet");
     }
     private void FixedUpdate()
     {
@@ -46,6 +50,8 @@ public class Hero : MonoBehaviour
     private void Update()
     {
         if (isGrounded) State = States.idle; // стоим ли мы на земле ( если стоим то анимация idle)
+
+        if (Input.GetButtonDown("Fire1")) Shoot(); // если нажата кнопка лкм то вызываем метод shoot (стреляем)
 
         if (Input.GetButton("Horizontal"))
             Run();
@@ -64,6 +70,17 @@ public class Hero : MonoBehaviour
     {
         rb.AddForce(transform.up * jumpForse, ForceMode2D.Impulse);
     }
+
+    private void Shoot()
+    {
+        Vector3 position = transform.position;
+        position.y += 0.8F;
+
+        Bullet newBullet = Instantiate(bullet, position, bullet.transform.rotation) as Bullet;
+
+        newBullet.Direction = newBullet.transform.right * (sprite.flipX ? -1.0F : 1.0F);
+    }
+
     private void CheckGround()
     {
         isGrounded = Physics2D.OverlapCircle(grondCheck.position, groundRadius, WhatIsGround);
