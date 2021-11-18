@@ -74,7 +74,7 @@ public class Hero : MonoBehaviour
     private void Shoot()
     {
         Vector3 position = transform.position;
-        position.y += 0.8F;
+        position.y +=3f;
 
         Bullet newBullet = Instantiate(bullet, position, bullet.transform.rotation) as Bullet;
 
