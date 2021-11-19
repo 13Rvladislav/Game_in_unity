@@ -16,10 +16,10 @@ public class Hero : MonoBehaviour
     [SerializeField] private int lives = 3;// количество жизней
     [SerializeField] private float jumpForse = 8f;// сила прыжка
     //
-    [SerializeField] private bool isGrounded=false;
+    [SerializeField] private bool isGrounded = false;
     [SerializeField] private Transform grondCheck;
     [SerializeField] public float groundRadius = 0.2f;
-     public LayerMask WhatIsGround;
+    public LayerMask WhatIsGround;
     //
     private Rigidbody2D rb;
     private Animator anim; // поле типа аниматор
@@ -76,6 +76,7 @@ public class Hero : MonoBehaviour
         Vector3 position = transform.position;
         position.y +=3f;
 
+
         Bullet newBullet = Instantiate(bullet, position, bullet.transform.rotation) as Bullet;
 
         newBullet.Direction = newBullet.transform.right * (sprite.flipX ? -1.0F : 1.0F);
@@ -92,4 +93,12 @@ public class Hero : MonoBehaviour
         lives -= 1;
         Debug.Log(lives);
     }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("platform"))
+            this.transform.parent = collision.transform;
+        if (!collision.gameObject.tag.Equals("platform"))
+            this.transform.parent = null;
+    }
+    
 }
