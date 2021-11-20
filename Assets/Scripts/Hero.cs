@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public enum States// список 
@@ -26,7 +26,10 @@ public class Hero : MonoBehaviour
     private SpriteRenderer sprite;
 
     private Bullet bullet;
+    //
+    private bool hasEntered;
 
+    //
     public static Hero Instance { get; set; }
     private States State
     {
@@ -88,10 +91,15 @@ public class Hero : MonoBehaviour
 
         if (!isGrounded) State = States.jump; // если не касаемся земли, то анимация прыжка
     }
-    public void GetDamage()
+    public void GetDamage(int damage)
     {
-        lives -= 1;
-        Debug.Log(lives);
+        lives -= damage;
+        Debug.Log("У героя "+lives);
+        if (lives < 1)
+        {
+            Destroy(this.gameObject);
+            SceneManager.LoadScene("SampleScene");
+        }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {

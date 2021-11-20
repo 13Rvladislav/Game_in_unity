@@ -27,9 +27,9 @@ public class WalkingMonster : Entity
     {
         if(collision.gameObject==Hero.Instance.gameObject)
         {
-            Hero.Instance.GetDamage();
+            Hero.Instance.GetDamage(1);
             lives--;
-            Debug.Log("У червя " + lives);
+            Debug.Log("У монстра " + lives);
 
         }
         if (lives < 1)
