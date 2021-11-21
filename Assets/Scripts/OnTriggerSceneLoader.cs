@@ -10,7 +10,7 @@ public class OnTriggerSceneLoader : MonoBehaviour
     {
         if (other.gameObject.tag == "Player") //Проверяем тэг объекта. Убедись, что у Игрока есть тег Player
         {
-            SceneManager.LoadScene("Menu"); //Загружаем сцену
+            SceneManager.LoadScene("End"); //Загружаем сцену
         }
     }
 }

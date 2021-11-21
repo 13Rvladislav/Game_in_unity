@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    public virtual void GetDamage()
+    public int lives;
+    public virtual void GetDamage(int damage)
     {
-
+        lives -= damage;
     }
     public virtual void Die()
     {

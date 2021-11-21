@@ -25,7 +25,9 @@ public class Hero : MonoBehaviour
     private Animator anim; // поле типа аниматор
     private SpriteRenderer sprite;
 
-    private Bullet bullet;
+    private Bullet bullet; //
+    //public Transform shotPoint;
+    //public float offset;
     //
     private bool hasEntered;
 
@@ -77,7 +79,9 @@ public class Hero : MonoBehaviour
     private void Shoot()
     {
         Vector3 position = transform.position;
-        position.y +=3f;
+        position.y += 3f;
+
+        //Instantiate(bullet, shotPoint.position, transform.rotation);
 
 
         Bullet newBullet = Instantiate(bullet, position, bullet.transform.rotation) as Bullet;
