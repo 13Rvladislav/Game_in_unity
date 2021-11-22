@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine;
+//using UnityEngine;
 
 public enum States// список 
 {
@@ -25,9 +25,7 @@ public class Hero : MonoBehaviour
     private Animator anim; // поле типа аниматор
     private SpriteRenderer sprite;
 
-    private Bullet bullet; //
-    //public Transform shotPoint;
-    //public float offset;
+    
     //
     private bool hasEntered;
 
@@ -46,7 +44,6 @@ public class Hero : MonoBehaviour
         anim = GetComponent<Animator>(); // получаем ссылку на компонент поля
         sprite = GetComponentInChildren<SpriteRenderer>();
 
-        bullet = Resources.Load<Bullet>("Bullet");
     }
     private void FixedUpdate()
     {
@@ -55,8 +52,6 @@ public class Hero : MonoBehaviour
     private void Update()
     {
         if (isGrounded) State = States.idle; // стоим ли мы на земле ( если стоим то анимация idle)
-
-        if (Input.GetButtonDown("Fire1")) Shoot(); // если нажата кнопка лкм то вызываем метод shoot (стреляем)
 
         if (Input.GetButton("Horizontal"))
             Run();
@@ -74,19 +69,6 @@ public class Hero : MonoBehaviour
     private void Jump()
     {
         rb.AddForce(transform.up * jumpForse, ForceMode2D.Impulse);
-    }
-
-    private void Shoot()
-    {
-        Vector3 position = transform.position;
-        position.y += 3f;
-
-        //Instantiate(bullet, shotPoint.position, transform.rotation);
-
-
-        Bullet newBullet = Instantiate(bullet, position, bullet.transform.rotation) as Bullet;
-
-        newBullet.Direction = newBullet.transform.right * (sprite.flipX ? -1.0F : 1.0F);
     }
 
     private void CheckGround()
