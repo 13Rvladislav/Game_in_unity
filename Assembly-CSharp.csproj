@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Obstacle.cs" />
     <Compile Include="Assets\Scripts\Worms.cs" />
     <Compile Include="Assets\Scripts\MovingPlatform1.cs" />
+    <Compile Include="Assets\Scripts\ButtonExit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BayatGames\Free Platform Game Assets\Readme.txt" />
