@@ -1,41 +1,44 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//using UnityEngine;
 
+
+#region Animation Enum
 public enum States// список 
 {
     idle,
     run,
     jump,
 }
+#endregion
 
 public class Hero : MonoBehaviour
 {
-
+    #region Parametr Person
     [SerializeField] private float speed = 3f;// скорость движения
     [SerializeField] private int lives = 3;// количество жизней
     [SerializeField] private float jumpForse = 8f;// сила прыжка
-    //
+    #endregion
+
+    #region Check Ground
     [SerializeField] private bool isGrounded = false;
     [SerializeField] private Transform grondCheck;
     [SerializeField] public float groundRadius = 0.2f;
     public LayerMask WhatIsGround;
-    //
+    #endregion
+
     private Rigidbody2D rb;
     private Animator anim; // поле типа аниматор
     private SpriteRenderer sprite;
 
-    
-    //
-    private bool hasEntered;
-
-    //
     public static Hero Instance { get; set; }
+
+    #region Animation
     private States State
     {
         get { return (States)anim.GetInteger("state"); } // получаем значение стате из аниматора
         set { anim.SetInteger("state", (int)value); } // меняем это значение
     }
+    #endregion
 
     private void Awake()
     {
@@ -49,6 +52,8 @@ public class Hero : MonoBehaviour
     {
         CheckGround();
     }
+
+    #region Check Do
     private void Update()
     {
         if (isGrounded) State = States.idle; // стоим ли мы на земле ( если стоим то анимация idle)
@@ -58,6 +63,9 @@ public class Hero : MonoBehaviour
         if (isGrounded && Input.GetButtonDown("Jump"))
             Jump();
     }
+    #endregion
+
+    #region Run
     private void Run()
     {
         if (isGrounded) State = States.run; // проверка такая же
@@ -66,17 +74,27 @@ public class Hero : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, (speed * Time.deltaTime) * 1.5f);
         sprite.flipX = dir.x < 0.0f;
     }
+    #endregion
+
+    #region Jump
     private void Jump()
     {
         rb.AddForce(transform.up * jumpForse, ForceMode2D.Impulse);
     }
+    #endregion
 
+
+    #region isGround
     private void CheckGround()
     {
         isGrounded = Physics2D.OverlapCircle(grondCheck.position, groundRadius, WhatIsGround);
 
         if (!isGrounded) State = States.jump; // если не касаемся земли, то анимация прыжка
     }
+    #endregion
+
+
+    #region GetDamage
     public void GetDamage(int damage)
     {
         lives -= damage;
@@ -87,6 +105,10 @@ public class Hero : MonoBehaviour
             SceneManager.LoadScene("SampleScene");
         }
     }
+    #endregion
+
+
+    #region hasPlatform
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("platform"))
@@ -94,5 +116,6 @@ public class Hero : MonoBehaviour
         if (!collision.gameObject.tag.Equals("platform"))
             this.transform.parent = null;
     }
-    
+    #endregion
+
 }

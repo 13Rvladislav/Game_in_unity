@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Worms : Entity
@@ -17,5 +15,4 @@ public class Worms : Entity
         if (lives < 1)
             Die();
     }
-
 }
