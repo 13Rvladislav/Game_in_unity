@@ -19,6 +19,8 @@ public class Hero : MonoBehaviour
     [SerializeField] private float jumpForse = 8f;// сила прыжка
     #endregion
 
+    public Joystick joystick;
+
     #region Check Ground
     [SerializeField] private bool isGrounded = false;
     [SerializeField] private Transform grondCheck;
@@ -58,9 +60,9 @@ public class Hero : MonoBehaviour
     {
         if (isGrounded) State = States.idle; // стоим ли мы на земле ( если стоим то анимация idle)
 
-        if (Input.GetButton("Horizontal"))
+        if (joystick.Horizontal != 0)
             Run();
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        if (isGrounded && joystick.Vertical > 0.5f)
             Jump();
     }
     #endregion
@@ -70,7 +72,7 @@ public class Hero : MonoBehaviour
     {
         if (isGrounded) State = States.run; // проверка такая же
 
-        Vector3 dir = transform.right * Input.GetAxis("Horizontal");
+        Vector3 dir = transform.right * joystick.Horizontal;
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, (speed * Time.deltaTime) * 1.5f);
         sprite.flipX = dir.x < 0.0f;
     }
@@ -79,7 +81,8 @@ public class Hero : MonoBehaviour
     #region Jump
     private void Jump()
     {
-        rb.AddForce(transform.up * jumpForse, ForceMode2D.Impulse);
+        rb.velocity = Vector2.up * jumpForse;
+
     }
     #endregion
 
